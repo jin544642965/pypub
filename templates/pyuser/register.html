@@ -1,0 +1,25 @@
+{% extends "pyuser/user_base.html" %}
+{% block content %}
+      <form class="form-signin" role="form" action="/pyuser/register/" method='POST'>
+        <h3 class="form-signin-heading text-center mb30">pypub用户注册</h3>
+          {% if error %}
+          <div class="alert alert-warning ">{{ error }}</div>
+          {% endif %}
+	<label class="pt15 pb10">邮箱：</label>
+        <div >{{ uf.username }}</div>
+    <label class=" pt15 pb10">姓名：</label>
+          <div >{{ uf.name }}</div>
+	<label class="pt15 pb10">密码：</label>
+          <div >{{ uf.password }}</div>
+    <label class="pt15 pb10">角色</label>
+
+      <select id="add_role" name="add_role" class="form-control">
+          <option value="开发者">开发者</option>
+          <option value="管理员">管理员</option>
+      </select>
+        <button class="btn btn-lg btn-primary btn-block mt30" type="submit" >立即注册</button>
+          <div class="mt30">
+        <a href="/" class="btn btn-lg btn-default btn-block"  >返回登录</a>
+        </div>
+	</form>
+{% endblock %}

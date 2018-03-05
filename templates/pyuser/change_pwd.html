@@ -1,0 +1,13 @@
+{% extends "pyuser/user_base.html" %}
+{% block content %}
+      <form class="form-signin" role="form" action='/pyuser/change_password/' method='post'>
+
+        <h3 class="form-signin-heading ">pypub</h3>
+	    <label>修改密码：</label>
+                 {#     隐藏传递token的值#}
+          <input type="hidden" value="{{ token }}" name="token" />
+          {{ rpf.password }}
+        <button class="btn btn-lg btn-primary btn-block" type="submit" >保存</button>
+	</form>
+{% endblock %}
+

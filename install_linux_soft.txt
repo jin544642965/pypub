@@ -1,0 +1,2 @@
+apt-get install sendmail
+apt-get install redis-server

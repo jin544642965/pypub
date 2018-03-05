@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="row">
+    {% for p in project_list %}
+
+            <div class="col-xs-12">
+                <form  method='POST' id="projectForm" class="form-horizontal">
+<style>
+.error{
+	color:red;
+}
+</style>
+                    {% if error %}
+                        <div class="alert alert-warning ">{{ error }}</div>
+                    {% endif %}
+                     {% if msg %}
+                         <div class="alert alert-success">{{ msg | safe }}</div>
+                     {% endif %}
+                    <h3 class="page-header">编辑配置</h3>
+                
+                    <div class="form-group">
+                        <label for="project_name" class="col-sm-1 control-label">项目名称</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control" id="project_name" name="project_name" placeholder="请输入项目名称" value="{{ p.project_name }}" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="project_name" class="col-sm-1 control-label">项目环境</label>
+                        <div class="col-sm-11">
+                            <select class="form-control" id="env" name="env">
+                                <option value="线上环境">线上环境</option>
+                                <option value="测试环境">测试环境</option>
+                                <option value="预发布环境">预发布环境</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="project_address" class="col-sm-1 control-label">地址</label>
+                        <div class="col-sm-11">
+                              <input type="text" class="form-control" id="repo_address" name="repo_address" placeholder="git@github.com:pypub/pypub.git" value="{{ p.repo_address }}">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="username-password" style="display: none">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label for="username" class="col-sm-3 control-label">用户</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="p_username" name="p_username" placeholder="用户名" value="{{ p.p_username }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label for="password" class="col-sm-3 control-label">密码</label>
+                                    <div class="col-sm-9">
+                                        <input type="password" class="form-control" id="p_password" name="p_password" placeholder="密码" value="{{ p.p_password }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="form-group">
+                        <label for="repo_type" class="col-sm-1 control-label"></label>
+                        <div class="col-sm-11">
+                            <input type="hidden" class="form-control" id="repo_type" value="git">
+                        </div>
+                     </div>
+
+                    <div class="row">
+                        <div class="col-xs-4">
+
+                                <label for="project_deploy_from">代码检出仓库</label>
+                                <input type="text" class="form-control" id="repertory" name="repertory" placeholder="/data/www/deploy" value="{{ p.repertory }}">
+                                <label for="project-excludes">排除文件</label>
+                                  <textarea id="excludes_file" class="form-control" name="excludes_file" rows="10" placeholder=".git
+.svn
+README.md" data-placement="top" data-rel="tooltip" data-title="剔除不上线的文件、目录，每行一个" data-original-title="" title="" { p.excludes_file }}></textarea>
+
+                        </div>
+
+                        <div class="col-xs-4">
+
+                                <label for="project_deploy_from">用户</label>
+                                <input type="text" class="form-control" id="www_user" name="www_user" placeholder="www" value="{{ p.www_user }}">
+
+                                <label for="project_deploy_from">网站路径</label>
+                                <input type="text" class="form-control" id="web_path" name="web_path" placeholder="/data/wwwroot/dttx.com" value="{{ p.web_path }}">
+                                <label for="project_release_from">发布版本存储路径</label>
+                                <input type="text" class="form-control" id="deploy_releases" name="deploy_releases" placeholder="/data/release" value="{{ p.deploy_releases }}">
+                                <label for="project_release_num">版本保留份数</label>
+                                <input type="digits" class="form-control" id="releases_num" name="releases_num" placeholder="10" value="{{ p.releases_num }}">
+                                <label for="project_hosts">服务器列表</label>
+                                <textarea id="servers" class="form-control" name="servers" rows="5" placeholder="10.0.0.13
+10.0.0.14:8888" data-placement="top" data-rel="tooltip" data-title="要发布的机器列表，一行一个，非22端口可 ip:port" data-original-title="" title="" >{{ p.servers }}</textarea>
+                        </div>
+
+
+                        <div class="col-xs-4">
+                                <label for="project_deploy_from">代码发布前</label>
+                                <textarea id="project-pre_deploy" class="form-control" name="project-pre_deploy"
+                                          data-placement="top" data-rel="tooltip" data-title="在部署代码之前的准备工作，如git的一些前置检查、vendor的安装（更新），一行一条"
+                                          style="overflow: hidden; height: 30px;" onfocus="window.activeobj=this;
+                                          this.clock=setInterval(function(){activeobj.style.height=activeobj.scrollHeight+'px';},200);
+                                          " onblur="clearInterval(this.clock);" data-original-title="" title="">
+
+                                </textarea>
+
+                                <label for="project_deploy_from">代码发布后</label>
+                                      <textarea id="project-post_deploy" class="form-control" name="Project[post_deploy]" data-placement="top" data-rel="tooltip"
+                                                data-title="git代码检出之后，可能做一些调整处理，如vendor拷贝，环境适配（mv config-test.php config.php），一行一条"
+                                                style="overflow: hidden; height: 30px;" onfocus="window.activeobj=this;
+                                                this.clock=setInterval(function(){activeobj.style.height=activeobj.scrollHeight+'px';},200);" onblur="clearInterval(this.clock);
+                                                " data-original-title="" title="">
+                                      </textarea>
+                                <label for="project_release_from">代码同步完后</label>
+                                    <textarea id="project-post_release" class="form-control" name="Project[post_release]" data-placement="top"
+                                              data-rel="tooltip" data-title="所有目标机器都部署完毕之后，做一些清理工作，如删除缓存、平滑重载/重启服务（nginx、php、task），一行一条(双引号将会被转义为\&quot;)"
+                                              style="overflow: hidden; height: 30px;" onfocus="window.activeobj=this;this.clock=setInterval(function(){activeobj.style.height=activeobj.scrollHeight+'px';},200);
+                                              " onblur="clearInterval(this.clock);" data-original-title="" title="">
+                                    </textarea>
+                        </div>
+                    </div>
+                    <hr>
+    <div class="form-group">
+        <label for="branch">选择分支</label>
+        {% for s in submit_method %}
+            <div  id="{{ s }}" name ="{{ s }}" class="radio" style="display: inline">
+                <label>
+                    <input name="submit_method" type="radio" value="{{ s }}" name= "{{ s }}" {% ifequal s 'branch' %}checked="checked"{% endifequal %}>
+                    <span class="1b1">{{ s }}</span>
+                </label>
+            </div>
+        {% endfor %}
+              <div class="box-footer">
+        <input type="submit" class="btn btn-primary" value="提交">
+      </div>
+    </div>
+                </form>
+</div>
+{% endfor %}
+    </div>
+
+<script>
+ $.validator.setDefaults({
+            submitHandler:function(){
+                form.submit();     {#   验证成功后执行表单提交#}
+         }
+        });
+
+ $().ready(function(){
+     $("#projectForm").validate({
+         rules:{
+             project_name: "required",
+             repo_address:{
+                 required:true,
+             },
+{#             username:"required",#}
+{#             password:{#}
+{#                 required:true,#}
+{#                 minlength:5#}
+{#             },#}
+             repertory:{
+                 required:true,
+             },
+             excludes_file:{
+                 required:false,
+             },
+            www_user:"required",
+             web_path:{
+                 required:true,
+             },
+             deploy_releases:{
+                 required:true,
+             },
+             releases_num:{
+                 required:true,
+                 digits:true
+             },
+            servers:"required",
+         },
+
+         messages:{
+            project_name:"请输入项目名称",
+             repo_address:{
+                 required:"请输入代码地址",
+             },
+             username:"请输入用户名",
+             password:{
+                 required:"请输入密码",
+                 minlength:"密码长度不能小于5位",
+             },
+             repertory:{
+                 required:"请输入代码检出位置",
+             },
+             www_user:{
+                 required:"请输入项目用户",
+             },
+             web_path:{
+                 required:"请输入站点路径",
+
+             },
+             deploy_releases:{
+                 required:"请输入版本存储路径",
+             },
+             releases_num:{
+                 required:"请输入版本保留份数",
+                 digits:"请输入数字",
+             },
+             servers:"请输入服务器IP",
+         }
+     });
+ });
+
+        jQuery(function($){
+
+            $('.show-git').click(function(){
+                $('.username-password').hide();
+                $('#repo_type').val('git');
+                $('#div_repo_mode_nontrunk').hide();
+            })
+
+            $('.show-svn').click(function(){
+                $('.username-password').show();
+                $('#repo_type').val('svn');
+                $('#div_repo_mode_nontrunk').css({'display':'inline'});
+
+            })
+        })
+</script>
+
+{% endblock %}

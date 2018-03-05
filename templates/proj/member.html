@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+    <h3 class="page-header">项目组成员</h3>
+   <div class="page-content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="row col-sm-4">
+                        <h4 class="pink">
+                            <i class="icon-hand-right green"></i>
+                             <span class="green">ywtest-xs</span> 用户组关系
+                        </h4>
+                    </div>
+
+                    <div class="row clo-sm-4" style="margin-top: 5px; float:right;">
+                        <form id="user_add" action="/proj/member?id={{ id }}" method="post">
+                            <input  name="_csrf" value="sdgsadgsdgsdgdsgdsgewfgret==xdgdsg" type="hidden" >
+                            <div class="input-group">
+                                <select name="user_add" id="user_add" data-placeholder="通过邮箱查找用户" style="display:inline" >
+                                    <option value="">&nbsp;</option>
+                                    <option value="1">admin@xxx.com - 管理员</option>
+                                </select>
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-purple btn-sm" style="height: 29px;padding-top: 1px;">
+                        添加        <i class="icon-search icon-on-right bigger-110"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+   </div>
+{% endblock %}
+

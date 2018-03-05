@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+    <h3 class="page-header">用户管理</h3>
+    <div class="box">
+    <div class="box-header">
+        <form action="/conf/" method="POST">
+            <input type="hidden" value="VTJmUzI4dUoRVhFmf1wCEnhFUSt6dywNPlMJB0tfD3sQSiAHZUg8OQ==" name="_csrf">
+            <div class="col-xs-12 col-sm-8" style="padding-left: 0;margin-bottom: 10px;">
+                <div class="input-group">
+                    <input type="text" name="kw" class="form-control search-query" placeholder="名字或邮箱">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default btn-sm">
+                            Search
+                            <i class="icon-search icon-on-right bigger-110"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </form>
+        <a class="btn btn-default btn-sm" href="/pyuser/user_add/">
+            <i class="icon-pencil align-top bigger-125"></i>
+            添加用户        </a>
+    </div><!-- /.box-header -->
+    <div class="box-body no-padding clearfix">
+        <table class="table table-striped table-bordered table-hover">
+            <tbody>
+            <tr>
+                <th>真实名字</th>
+                <th>邮箱</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            {% for u in user_list %}
+                <tr>
+                    <td>{{ u.last_name }}</td>
+                    <td>{{ u.username }}</td>
+                    <td>{{ u.is_active }}</td>
+                    <td class="text-success">
+                            <div>
+                            <a href="/pyuser/user_edit?id={{ u.id }}" data-toggle="modal" data-target="#myModal">
+                                编辑                           </a>
+                            <a href="/proj/copy?id={{ u.id }}" class="btn-copy" href="javascript:;" data-id="2">
+                                冻结                            </a>
+                            <a href="/pyuser/user_del?id={{ u.id }}">
+                                删除                            </a>
+                            <a href="/proj/edit?id={{ u.id }}">
+                                设为管理员                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+
+                            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <br>
+
+{% endblock %}
